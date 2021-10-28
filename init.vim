@@ -88,16 +88,38 @@ au BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g
 call plug#begin('~/.config/nvim/plugged')
 
 " Snippets
-" Plug 'SirVer/ultisnips'
+Plug 'honza/vim-snippets'
+Plug 'SirVer/ultisnips'
 
 " Undo Tree
 Plug 'mbbill/undotree'
 
+" Nerd Tree
+Plug 'preservim/nerdtree'
+
 " Status line
-" Plug 'theniceboy/eleline.vim'
-Plug 'ojroques/vim-scrollstatus'
+Plug 'vim-airline/vim-airline'
 
 " Color
 Plug 'theniceboy/nvim-deus'
 call plug#end()
 
+" ===
+" === Plug Settings
+" ===
+
+" NerdTree
+" Open NerdTree with <LEADER>nt
+noremap <LEADER>nt :NERDTreeFocus<CR>
+" Change default arrows
+let g:NERDTreeDirArrowExpandable = '▸'
+let g:NERDTreeDirArrowCollapsible = '▾'
+
+" UndoTree
+" Open UndoTree with <LEADER>ut
+noremap <LEADER>ut :UndotreeToggle<CR>
+
+" ultisnips
+" Trigger configuration
+" leg g:UltiSnipsJumpForwardTrigger="
+" leg g:UltiSnipsJumpBackwardTrigger="
