@@ -91,6 +91,9 @@ call plug#begin('~/.config/nvim/plugged')
 Plug 'honza/vim-snippets'
 Plug 'SirVer/ultisnips'
 
+" Table Mode
+Plug 'dhruvasagar/vim-table-mode'
+
 " Undo Tree
 Plug 'mbbill/undotree'
 
@@ -108,18 +111,23 @@ call plug#end()
 " === Plug Settings
 " ===
 
-" NerdTree
-" Open NerdTree with <LEADER>nt
-noremap <LEADER>nt :NERDTreeFocus<CR>
-" Change default arrows
-let g:NERDTreeDirArrowExpandable = '▸'
-let g:NERDTreeDirArrowCollapsible = '▾'
-
-" UndoTree
-" Open UndoTree with <LEADER>ut
-noremap <LEADER>ut :UndotreeToggle<CR>
-
-" ultisnips
+" === ultisnips
 " Trigger configuration
 " leg g:UltiSnipsJumpForwardTrigger="
 " leg g:UltiSnipsJumpBackwardTrigger="
+
+" === Table Mode
+" Open table mode with <LEADER>tm
+noremap <LEADER>tm :TableModeToggle<CR>
+
+" === UndoTree
+" Open UndoTree with <LEADER>ut
+noremap <LEADER>ut :UndotreeToggle<CR>
+
+" === NerdTree
+" Open NerdTree with <LEADER>nt
+noremap <LEADER>nt :NERDTreeFocus<CR>
+
+" Change default arrows
+let g:NERDTreeDirArrowExpandable = '▸'
+let g:NERDTreeDirArrowCollapsible = '▾'
