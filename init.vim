@@ -15,8 +15,8 @@ noremap s <nop>
 let mapleader=" "
 
 " Save & Quit
-map S :w<CR>
-map Q :q<CR>
+map <C-s> :w<CR>
+map <C-q> :q<CR>
 
 " Edit vimrc anytime
 map <LEADER>rc :e ~/.config/nvim/init.vim<CR>
@@ -80,6 +80,7 @@ set wildmenu
 set ignorecase
 set smartcase
 set wrap
+set autowrite
 au BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
 
 " ===
@@ -94,17 +95,29 @@ Plug 'SirVer/ultisnips'
 " Table Mode
 Plug 'dhruvasagar/vim-table-mode'
 
+" Wildfire
+Plug 'gcmt/wildfire.vim'
+
+" Vim-Surround
+Plug 'tpope/vim-surround'
+
+" Vim-Go
+Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
+
+" Split Join
+Plug 'AndrewRadev/splitjoin.vim'
+
 " Undo Tree
 Plug 'mbbill/undotree'
 
 " Nerd Tree
-Plug 'preservim/nerdtree'
+Plug 'preservim/nerdtree', {'on': 'NERDTreeToggle'}
 
 " Status line
 Plug 'vim-airline/vim-airline'
 
 " Color
-Plug 'theniceboy/nvim-deus'
+Plug 'fatih/molokai'
 call plug#end()
 
 " ===
@@ -113,12 +126,42 @@ call plug#end()
 
 " === ultisnips
 " Trigger configuration
-" leg g:UltiSnipsJumpForwardTrigger="
-" leg g:UltiSnipsJumpBackwardTrigger="
+" leg g:UltiSnipsJumpForwardTrigger = "
+" leg g:UltiSnipsJumpBackwardTrigger = "
 
 " === Table Mode
 " Open table mode with <LEADER>tm
 noremap <LEADER>tm :TableModeToggle<CR>
+
+" === Vim-Go
+" Run 'go run' with <LEADER>r
+autocmd FileType go nmap <LEADER>r <Plug>(go-run)
+
+" Run 'go build' or 'go test compile' with <LEADER>b, which based on the go file
+function! s:build_go_files()
+  let l:file = expand('%')
+  if l:file =~# '^\f\+_test\.go$'
+    call go#test#Test(0, 1)
+  elseif l:file =~# '^\f\+\.go$'
+    call go#cmd#Build(0)
+  endif
+endfunction
+autocmd FileType go nmap <leader>b :<C-u>call <SID>build_go_files()<CR>
+
+" Use goimports, not fmt
+let g:go_fmt_command = "goimports"
+
+" Run gometalinter (call 'vet' 'lint' and 'errcheck') automatically when saving the file
+let g:go_metalinter_autosave = 1
+
+" Show single tab as 4 spaces
+autocmd BufNewFile,BufRead *.go setlocal noexpandtab tabstop=4 shiftwidth=4
+
+" Hightlight settings
+let g:go_highlight_types = 1
+let g:go_highlight_fields = 1
+let g:go_highlight_functions = 1
+let g:go_highlight_function_calls = 1
 
 " === UndoTree
 " Open UndoTree with <LEADER>ut
@@ -126,8 +169,14 @@ noremap <LEADER>ut :UndotreeToggle<CR>
 
 " === NerdTree
 " Open NerdTree with <LEADER>nt
-noremap <LEADER>nt :NERDTreeFocus<CR>
+noremap <LEADER>nt :NERDTreeToggle<CR>
 
 " Change default arrows
 let g:NERDTreeDirArrowExpandable = '▸'
 let g:NERDTreeDirArrowCollapsible = '▾'
+
+" === Molokai
+" Enable molokai with original color scheme and 256 color version
+let g:rehash256 = 1
+let g:molokai_original = 1
+colorscheme molokai
